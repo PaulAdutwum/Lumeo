@@ -1,50 +1,77 @@
-# React + TypeScript + Vite
+# 🎬 Lumeo - Movie & Entertainment Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to **Lumeo**, a React-based movie discovery platform that allows users to explore trending movies, watch previews, and log in using Firebase authentication.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✅ **User Authentication**: Sign up or log in with Google or email/password authentication (powered by Firebase).  
+✅ **Trending Movies**: View trending movies fetched from The Movie Database (TMDb) API.  
+✅ **Live Trailers**: Click on a movie card to watch a **live preview** of the trailer.  
+✅ **Fully Responsive**: Optimized for **both desktop and mobile screens**.  
+✅ **Dynamic UI Animations**: Smooth animations using **Framer Motion** for enhanced user experience.  
 
-## Expanding the ESLint configuration
+## 📷 Screenshots
+🚀 Coming Soon...
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🛠️ Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+- **React.js + Vite** - Frontend framework
+- **Tailwind CSS** - Styling & responsiveness
+- **Framer Motion** - UI animations
+- **Firebase Authentication** - User login & authentication
+- **TMDb API** - Fetch trending movies
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🔧 Installation & Setup
+
+1️⃣ **Clone the repository**:
+```sh
+  git clone https://github.com/PaulAdutwum/Lumeo.git
+  cd Lumeo
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2️⃣ **Install dependencies**:
+```sh
+  npm install
 ```
+
+3️⃣ **Set up environment variables**:
+Create a `.env.local` file in the root directory and add:
+```env
+VITE_FIREBASE_API_KEY=your_firebase_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain_here
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id_here
+VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket_here
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id_here
+VITE_FIREBASE_APP_ID=your_firebase_app_id_here
+VITE_FIREBASE_MEASUREMENT_ID=your_firebase_measurement_id_here
+VITE_TMDB_API_KEY=your_tmdb_api_key_here
+```
+
+4️⃣ **Start the development server**:
+```sh
+  npm run dev
+```
+
+## 📌 Usage
+- **Sign in with Google or Email** to access personalized features.
+- **Browse Trending Movies** and watch trailers directly on the login page.
+- **Navigate seamlessly** through a fully responsive UI.
+
+## 🤝 Contributing
+Contributions are welcome! Follow these steps:
+1. **Fork** the repo
+2. **Create** a new branch: `git checkout -b feature-name`
+3. **Commit** your changes: `git commit -m "Added new feature"`
+4. **Push** to the branch: `git push origin feature-name`
+5. **Submit a pull request** 🚀
+
+## 📜 License
+This project is **open-source** and available under the [MIT License](LICENSE).
+
+---
+### 📬 Contact
+👤 **Paul Adutwum**  
+📧 [Email](pauladutwum303@gmail.com)  
+🔗 [GitHub](https://github.com/PaulAdutwum)  
+
+🚀 **Enjoy using Lumeo!** 🎥🍿
