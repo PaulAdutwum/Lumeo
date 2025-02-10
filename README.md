@@ -1,6 +1,6 @@
 # 🎬 Lumeo - Movie & Entertainment Hub
-
-Welcome to **Lumeo**, a React-based movie discovery platform that allows users to explore trending movies, watch previews, and log in using Firebase authentication.
+As a movie enthusiast, my friends often me for current new movies or current 'must watch shows', so I decided to a create a web application that can search for and organize all current and popular shows and send a list to subscribers. 
+Let me welcome you to **Lumeo**, a React-based movie discovery platform that allows users to explore trending movies, watch previews, and recommend movies tailored to users' interests.
 
 ## 🚀 Features
 
@@ -21,25 +21,6 @@ Welcome to **Lumeo**, a React-based movie discovery platform that allows users t
 - **Firebase Authentication** - User login & authentication
 - **TMDb API** - Fetch trending movies
 
-## 🔧 Installation & Setup
-
-1️⃣ **Clone the repository**:
-```sh
-  git clone https://github.com/PaulAdutwum/Lumeo.git
-  cd Lumeo
-```
-
-2️⃣ **Install dependencies**:
-```sh
-  npm install
-```
-
-
-
-3️⃣ **Start the development server**:
-```sh
-  npm run dev
-```
 
 ## 📌 Usage
 - **Sign in with Google or Email** to access personalized features.
@@ -47,9 +28,4 @@ Welcome to **Lumeo**, a React-based movie discovery platform that allows users t
 - **Navigate seamlessly** through a fully responsive UI.
 
 
-### 📬 Contact
-👤 **Paul Adutwum**  
-📧 [Email](pauladutwum303@gmail.com)  
-🔗 [GitHub](https://github.com/PaulAdutwum)  
 
-🚀 **Enjoy using Lumeo!** 🎥🍿
