@@ -1,5 +1,5 @@
 # 🎬 Lumeo - Movie & Entertainment Hub
-As a movie enthusiast, my friends often me for current new movies or current 'must watch shows', so I decided to a create a web application that can search for and organize all current and popular shows and send a list to subscribers. 
+As a movie enthusiast, my friends often reach out about new movies or 'must watch shows', so I decided to a create a web application that can search for and organize all current and popular shows and send a list to subscribers. 
 Let me welcome you to **Lumeo**, a React-based movie discovery platform that allows users to explore trending movies, watch previews, and recommend movies tailored to users' interests.
 
 ## 🚀 Features
