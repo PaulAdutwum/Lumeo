@@ -28,4 +28,3 @@ Let me welcome you to **Lumeo**, a React-based movie discovery platform that all
 - **Navigate seamlessly** through a fully responsive UI.
 
 
-
