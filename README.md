@@ -13,16 +13,16 @@ Let me welcome you to **Lumeo**, a React-based movie discovery platform that all
 ## 📷 Screenshots
 
 ### 🔹 Homepage
-![Lumeo Homepage](https://imgur.com/dkAwOZn)
+![Lumeo Homepage](https://github.com/user-attachments/assets/10662606-224a-410e-b778-2ae082e83cea)
 
 ### 🔹 Movie Details Page
-![Movie Details](https://imgur.com/n0Z7sWx)
+![Movie Details](https://github.com/user-attachments/assets/cf6a840c-0bf4-4992-85f2-b729543e71c6)
 
 ### 🔹 Sidebar Navigation
-![Sidebar](https://imgur.com/aWPrnF3)
+![Sidebar](https://github.com/user-attachments/assets/ba8d72a2-5f77-4055-a5bd-04383f27b76f)
 
 ### 🔹 Login
-![Login](https://imgur.com/3K9KlUK)
+![Login](https://github.com/user-attachments/assets/cfab3bf5-0d97-4fa0-a950-285ebb655b3e)
 
 ## 🛠️ Tech Stack
 
