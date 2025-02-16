@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../components/firebase";
 import { useNavigate } from "react-router-dom";
-import { FaTimes, FaFilm } from "react-icons/fa";
+import { FaBars, FaTimes, FaFilm } from "react-icons/fa";
 import YouTube from "react-youtube";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,6 +39,10 @@ const MainPage: React.FC = () => {
   const [isPlayerOpen, setIsPlayerOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   // ✅ Fetch All Movies (Trending)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   const handleAllMoviesClick = async () => {
     try {
       const res = await fetch(
@@ -46,6 +50,7 @@ const MainPage: React.FC = () => {
       );
       const data = await res.json();
       setMovies(data.results || []);
+      setIsSidebarOpen(false);
     } catch (error) {
       console.error("Error fetching all movies:", error);
     }
@@ -199,17 +204,33 @@ const MainPage: React.FC = () => {
         </div>
       )}
 
-      {/* ✅ Sidebar */}
-      {/* Sidebar */}
-      <aside className="flex flex-col top-0 left-0 bg-black p-4 z-20 transition-transform duration-300 md:h-auto w-64 border-r-2 border-gray-600 shadow-lg">
-        <div className="flex flex-col h-full">
-          {/* ✅ Lumeo Logo */}
-          <div className="flex items-center text-yellow-400 text-xl mb-4">
-            <FaFilm className="mr-2" />
-            <span className="font-bold">Lumeo</span>
-          </div>
+      {/* ✅ Sidebar Toggle Button (☰) for Mobile */}
+      <button
+        className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-3 rounded-md z-50"
+        onClick={toggleSidebar}
+      >
+        <FaBars size={20} />
+      </button>
 
-          {/* ✅ All Movies Button */}
+      {/* ✅ Sidebar */}
+      <aside
+        className={`fixed top-0 left-0 h-full bg-black p-4 z-40 transition-transform duration-300 md:h-auto w-64 border-r-2 border-gray-600 shadow-lg 
+    ${
+      isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+    } md:translate-x-0 md:relative`}
+      >
+        <div className="flex flex-col h-full">
+          {/* ✅ Sidebar Header with Close Button (✖) */}
+          <div className="flex justify-between items-center mb-4">
+            <div className="text-yellow-400 text-xl font-bold">Lumeo</div>
+            <button
+              className="md:hidden text-white text-2xl"
+              onClick={toggleSidebar}
+            >
+              ✖
+            </button>
+          </div>
+          {/* ✅ All Movies Button (Fix for ts(6133) error) */}
           <button
             className="w-full text-left p-2 hover:text-yellow-400 transition-all"
             onClick={handleAllMoviesClick}
@@ -217,9 +238,8 @@ const MainPage: React.FC = () => {
             🎬 All Movies
           </button>
 
-          {/* ✅ Genre List (Now in a div for spacing control) */}
-          {/* ✅ Genre List (Now using selectedGenre for highlighting) */}
-          <div className="flex flex-col space-y-2 mt-2 flex-grow overflow-y-auto">
+          {/* ✅ Genre List */}
+          <div className="flex flex-col space-y-2 mt-4 flex-grow overflow-y-auto">
             {genres.length > 0 ? (
               genres.map((genre) => (
                 <button
@@ -241,25 +261,7 @@ const MainPage: React.FC = () => {
             )}
           </div>
 
-          {/* ✅ Display Selected Genre Above Movies List */}
-          {selectedGenre && (
-            <h3 className="text-xl font-semibold text-yellow-400 text-center my-4">
-              🎬 Showing Movies for:{" "}
-              {genres.find((g) => g.id === selectedGenre)?.name ||
-                "Unknown Genre"}
-            </h3>
-          )}
-
-          {/* ✅ Add Extra Space Before "Generate Movie List" */}
-          <div className="mt-8">
-            <Link to="/generate-movies">
-              <button className="w-full text-left p-3 font-bold bg-blue-500 text-white rounded-md hover:bg-orange-600 transition-all">
-                🎥 Generate Movie List
-              </button>
-            </Link>
-          </div>
-
-          {/* ✅ Fun Movie Suggestion Feature (New Feature at the Bottom) */}
+          {/* ✅ Fun Movie Suggestion Feature */}
           <div className="mt-6 bg-gray-800 text-white p-3 rounded-lg text-center shadow-md">
             <h3 className="text-sm font-semibold">🎥 Movie Pick of the Day</h3>
             <p className="text-xs italic text-gray-300">
@@ -270,16 +272,21 @@ const MainPage: React.FC = () => {
               "
             </p>
           </div>
-
-          {/* ✅ Add More Space Before Logout Button */}
           <div className="mt-8">
-            <button
-              className="text-red-500 hover:text-red-700 transition-all"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            <Link to="/generate-movies">
+              <button className="w-full text-left p-3 font-bold bg-blue-500 text-white rounded-md hover:bg-orange-600 transition-all">
+                🎥 Generate Movie List
+              </button>
+            </Link>
           </div>
+
+          {/* ✅ Logout Button */}
+          <button
+            className="text-red-500 hover:text-red-700 transition-all mt-6"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       </aside>
 

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaFilm } from "react-icons/fa6";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
 
 interface Movie {
   id: number;
@@ -31,7 +38,7 @@ const MovieGenerator: React.FC = () => {
       .catch((error) => console.error("Error fetching genres:", error));
   }, []);
 
-  // ✅ Handle Genre Selection (Max 5)
+  // Handle Genre Selection (Max 5)
   const toggleGenreSelection = (genreId: number) => {
     if (selectedGenres.includes(genreId)) {
       setSelectedGenres(selectedGenres.filter((id) => id !== genreId));
@@ -40,21 +47,29 @@ const MovieGenerator: React.FC = () => {
     }
   };
 
-  // ✅ Fetch Movies Based on Selected Genres
+  // Fetch Movies Based on Selected Genres
   const fetchMoviesByGenres = async () => {
-    if (selectedGenres.length === 5) {
-      const genreString = selectedGenres.join(",");
-      try {
-        const res = await fetch(`${MOVIE_BY_GENRE_URL}${genreString}`);
-        const data = await res.json();
-        setMovies(data.results.slice(0, 10)); // Get top 10 movies
-      } catch (error) {
-        console.error("Error fetching movies:", error);
+    if (selectedGenres.length !== 5) {
+      alert("Please select exactly 5 genres to generate your movie list!");
+      return;
+    }
+
+    try {
+      const genreIds = selectedGenres.join(",");
+      const res = await fetch(`${MOVIE_BY_GENRE_URL}${genreIds}`);
+      const data = await res.json();
+
+      if (data.results) {
+        setMovies(data.results.slice(0, 10)); // ✅ Get top 10 movies
+      } else {
+        alert("No movies found. Try again later.");
       }
+    } catch (error) {
+      console.error("Error fetching movies:", error);
     }
   };
 
-  // ✅ Handle Email Submission
+  // Handle Email Submission
   const sendEmail = async () => {
     if (!email) {
       alert("Please enter your email to receive the list.");
@@ -127,9 +142,10 @@ const MovieGenerator: React.FC = () => {
           </h2>
           <ul className="list-decimal list-inside text-center mt-4">
             {movies.map((movie, index) => (
-              <li key={movie.id} className="mt-2 font-semibold">{`${
-                index + 1
-              }. ${movie.title}`}</li>
+              <li key={movie.id} className="mt-2 font-semibold">
+                {index + 1}
+                {movie.title}
+              </li>
             ))}
           </ul>
 
@@ -159,6 +175,48 @@ const MovieGenerator: React.FC = () => {
       >
         ← Back to Main Page
       </button>
+      <footer className="w-full bg-white-80 text-white py-6 mt-24 relative z-10">
+        <div className="container mx-auto flex flex-col items-center">
+          {/* ✅ Lumeo Logo & Name */}
+          <div className="flex items-center text-gray-400 text-2xl font-bold mb-4">
+            <FaFilm className="mr-2" />
+            <span>Lumeo</span>
+          </div>
+
+          <p className="text-gray-400 text-sm text-center mb-4">
+            © {new Date().getFullYear()} Lumeo. All rights reserved.
+          </p>
+
+          <div className="flex space-x-6 text-white">
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-400 transition text-xl"
+            >
+              <FontAwesomeIcon icon={faTwitter} />
+            </a>
+
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600 transition text-xl"
+            >
+              <FontAwesomeIcon icon={faFacebook} />
+            </a>
+
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-pink-500 transition text-xl"
+            >
+              <FontAwesomeIcon icon={faInstagram} />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
