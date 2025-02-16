@@ -11,6 +11,12 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import type { User } from "firebase/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faInstagram,
+  faFacebook,
+} from "@fortawesome/free-brands-svg-icons";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BACKDROP_URL = "https://image.tmdb.org/t/p/original";
@@ -41,7 +47,7 @@ const Login = () => {
     }
   };
 
-  // ✅ Handle Google Login
+  //  Handle Google Login
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -86,35 +92,27 @@ const Login = () => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
+      setUser(currentUser);
 
+      if (currentUser && window.location.pathname === "/") {
         if (!welcomePopup) {
           setWelcomePopup(true);
-          if (window.location.pathname === "/") {
-            setTimeout(() => {
+
+          // ✅ Ensure the popup stays for 8 seconds before navigating
+          setTimeout(() => {
+            setWelcomePopup(false); // Hide popup after duration
+            if (window.location.pathname === "/main") {
               navigate("/main");
-            }, 3000);
-          }
+            }
+          }, 15000);
         }
       }
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe(); // Cleanup subscription
   }, [navigate, welcomePopup]);
-
   // ✅ Pop-up Message
-  {
-    welcomePopup && (
-      <motion.div
-        className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white p-4 rounded-lg shadow-lg text-center w-fit mx-auto mt-6"
-        animate={{ opacity: [0, 1, 1, 0] }}
-        transition={{ duration: 8 }}
-      >
-        🎉 Hi {user?.displayName || "User"}, Thanks for joining Lumeo!
-      </motion.div>
-    );
-  }
+
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-6 relative bg-gray-900"
@@ -126,6 +124,15 @@ const Login = () => {
         transition: "background 1s ease-in-out",
       }}
     >
+      {welcomePopup && (
+        <motion.div
+          className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white p-4 rounded-lg shadow-lg text-center w-fit mx-auto mt-6"
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 3 }}
+        >
+          🎉 Hi {user?.displayName || "User"}, Thanks for joining Lumeo!
+        </motion.div>
+      )}
       {/* ✅ Dark Overlay for Better Readability */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
@@ -135,69 +142,75 @@ const Login = () => {
         <span className="font-bold">Lumeo</span>
       </div>
 
+      {/* ✅ Welcome Popup - Only Shows If welcomePopup is true */}
+      {welcomePopup && (
+        <motion.div
+          className="fixed top-2 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white p-4 rounded-lg shadow-lg text-center w-fit mx-auto mt-6 z-50"
+          animate={{ opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 8 }}
+        >
+          🎉 Hi {user?.displayName || "User"}, Thanks for joining Lumeo!
+        </motion.div>
+      )}
+
       {/* ✅ Welcome to Lumeo - Styled Header */}
       <div className="text-center text-white mb-8">
         {/* ✅ Welcome Title - Subtle Scaling Effect */}
         <motion.h1
           className="mt-16 md:mt-20 text-xs sm:text-sm md:text-lg lg:text-2xl xl:text-3xl font-extrabold text-white drop-shadow-lg text-center"
           animate={{ scale: [1, 1.05, 1], opacity: [0.9, 1, 0.9] }}
-          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+          transition={{ repeat: 1, duration: 3, ease: "easeInOut" }}
         >
           Welcome to Lumeo 🎬
         </motion.h1>
 
         {/* ✅ Mission Statement - Responsive Sliding Text Box */}
-        <div className="relative w-full max-w-2xl px-4 sm:px-6 md:px-8 p-6 rounded-lg shadow-lg mx-auto mb-10 bg-gray-900 overflow-hidden h-auto sm:h-56 md:h-64 lg:h-72">
+
+        <div className="relative w-full max-w-2xl px-4 sm:px-6 md:px-8 p-6 rounded-lg shadow-lg mx-auto mb-10 bg-gray-900 overflow-hidden h-auto sm:h-56 md:h-64 lg:h-72 border border-blue-500 hover:bg-blue-600 hover:scale-105 active:scale-95 cursor-pointer ">
           <motion.div
             className="h-full flex flex-col space-y-4 justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 3, ease: "easeInOut" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
             <motion.p
-              className="text-white text-lg font-bold text-center"
+              className="text-white text-lg font-bold italic text-center"
               initial={{ x: "-100%" }}
               animate={{ x: "0%" }}
-              transition={{ duration: 6, ease: "easeInOut" }}
-              whileHover={{ scale: 1.05 }}
-              exit={{ x: "100%" }}
-              repeat={Infinity}
+              transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
+              whileHover={{ scale: 1.06, color: "#00bfff" }}
             >
               🎥 Experience the magic of cinema from your home.
             </motion.p>
 
             <motion.p
-              className="text-blue-400 text-lg font-bold text-center"
+              className="text-blue-400 text-lg font-bold italic text-center"
               initial={{ x: "100%" }}
               animate={{ x: "0%" }}
-              transition={{ duration: 6, ease: "easeInOut", delay: 1 }}
-              whileHover={{ scale: 1.05 }}
-              exit={{ x: "-100%" }}
-              repeat={Infinity}
+              transition={{ duration: 2, ease: "easeOut", delay: 1 }}
+              whileHover={{ scale: 1.06, color: "#ffcc00" }}
             >
               🍿 Discover, Watch, and Enjoy top trending movies.
             </motion.p>
 
             <motion.p
-              className="text-white text-lg font-bold text-center"
+              className="text-white text-lg font-bold italic text-center"
               initial={{ x: "-100%" }}
               animate={{ x: "0%" }}
-              transition={{ duration: 6, ease: "easeInOut", delay: 2 }}
-              whileHover={{ scale: 1.05 }}
-              exit={{ x: "100%" }}
-              repeat={Infinity}
+              transition={{ duration: 2, ease: "easeOut", delay: 1.5 }}
+              whileHover={{ scale: 1.06, color: "#ff4500" }}
             >
               📺 Your personal movie hub, tailored to your preferences.
             </motion.p>
 
             <motion.p
-              className="text-blue-400 text-lg font-bold text-center"
+              className="text-blue-400 text-lg font-bold italic text-center"
               initial={{ x: "100%" }}
               animate={{ x: "0%" }}
-              transition={{ duration: 6, ease: "easeInOut", delay: 3 }}
-              whileHover={{ scale: 1.05 }}
-              exit={{ x: "-100%" }}
-              repeat={Infinity}
+              transition={{ duration: 2, ease: "easeOut", delay: 2 }}
+              whileHover={{ scale: 1.06, color: "#32cd32" }}
             >
               🌟 Exclusive content and personalized recommendations await!
             </motion.p>
@@ -207,7 +220,7 @@ const Login = () => {
       {/* ✅ Login Card (Centered on Screen) */}
       <motion.div
         className="relative bg-white p-8 rounded-lg shadow-lg w-96 border border-gray-300 hover:border-yellow-500 transition-all duration-300 z-10"
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ scale: 1.04 }}
       >
         <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           Login to Lumeo
@@ -255,6 +268,53 @@ const Login = () => {
 
       {/* ✅ Trending Movies BELOW the login card */}
       <TrendingMovies />
+
+      {/* ✅ Footer Section */}
+      <footer className="w-full bg-white-80 text-white py-6 mt-24 relative z-10">
+        <div className="container mx-auto flex flex-col items-center">
+          {/* ✅ Lumeo Logo & Name */}
+          <div className="flex items-center text-gray-400 text-2xl font-bold mb-4">
+            <FaFilm className="mr-2" />
+            <span>Lumeo</span>
+          </div>
+
+          {/* ✅ "All Rights Reserved" Text */}
+          <p className="text-gray-400 text-sm text-center mb-4">
+            © {new Date().getFullYear()} Lumeo. All rights reserved.
+          </p>
+
+          {/* ✅ Social Media Icons (Fixed Color) */}
+          <div className="flex space-x-6 text-white">
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-400 transition text-xl"
+            >
+              <FontAwesomeIcon icon={faTwitter} />
+            </a>
+
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600 transition text-xl"
+            >
+              <FontAwesomeIcon icon={faFacebook} />
+            </a>
+
+            {/* ✅ Instagram */}
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-pink-500 transition text-xl"
+            >
+              <FontAwesomeIcon icon={faInstagram} />
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

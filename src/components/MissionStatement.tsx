@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 // Mission Statement Sentences (Splitting into Parts)

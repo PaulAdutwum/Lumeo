@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../components/firebase";
 import { useNavigate } from "react-router-dom";
-import { FaBars, FaTimes, FaHome, FaFilm } from "react-icons/fa";
+import { FaTimes, FaFilm } from "react-icons/fa";
 import YouTube from "react-youtube";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTwitter,
+  faInstagram,
+  faFacebook,
+} from "@fortawesome/free-brands-svg-icons";
 
 interface Movie {
   id: number;
@@ -28,7 +34,7 @@ const MainPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  //const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const [trailerKey, setTrailerKey] = useState<string | null>(null);
   const [isPlayerOpen, setIsPlayerOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -109,6 +115,37 @@ const MainPage: React.FC = () => {
       }
     }
   };
+  {
+    /* ✅ Movie Trailer Popup */
+  }
+  {
+    isPlayerOpen && trailerKey && (
+      <div
+        className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-80 z-50"
+        onClick={() => setIsPlayerOpen(false)} // ✅ Close on background click
+      >
+        <div
+          className="relative w-[90%] md:w-[70%] lg:w-[50%]"
+          onClick={(e) => e.stopPropagation()} // ✅ Prevent closing when clicking the player
+        >
+          <button
+            className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
+            onClick={() => setIsPlayerOpen(false)}
+          >
+            <FaTimes size={20} />
+          </button>
+          <YouTube
+            videoId={trailerKey}
+            opts={{
+              width: "100%",
+              height: "400px",
+              playerVars: { autoplay: 1 },
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
 
   // ✅ Search Autocomplete (Fetch Suggestions)
   useEffect(() => {
@@ -163,26 +200,35 @@ const MainPage: React.FC = () => {
       )}
 
       {/* ✅ Sidebar */}
-      <aside className="flex flex-col top-0 left-0 bg-black p-4 z-20 transition-transform duration-300 md:h-auto w-64">
+      {/* Sidebar */}
+      <aside className="flex flex-col top-0 left-0 bg-black p-4 z-20 transition-transform duration-300 md:h-auto w-64 border-r-2 border-gray-600 shadow-lg">
         <div className="flex flex-col h-full">
           {/* ✅ Lumeo Logo */}
           <div className="flex items-center text-yellow-400 text-xl mb-4">
             <FaFilm className="mr-2" />
             <span className="font-bold">Lumeo</span>
           </div>
+
+          {/* ✅ All Movies Button */}
           <button
             className="w-full text-left p-2 hover:text-yellow-400 transition-all"
             onClick={handleAllMoviesClick}
           >
             🎬 All Movies
           </button>
-          {/* 🎬 Movie Genres List (One per line) */}
+
+          {/* ✅ Genre List (Now in a div for spacing control) */}
+          {/* ✅ Genre List (Now using selectedGenre for highlighting) */}
           <div className="flex flex-col space-y-2 mt-2 flex-grow overflow-y-auto">
             {genres.length > 0 ? (
               genres.map((genre) => (
                 <button
                   key={genre.id}
-                  className="w-full text-left p-2 hover:text-yellow-400 transition-all"
+                  className={`w-full text-left p-2 transition-all ${
+                    selectedGenre === genre.id
+                      ? "text-yellow-400 font-bold bg-gray-800 rounded-md"
+                      : "hover:text-yellow-400"
+                  }`}
                   onClick={() => handleGenreClick(genre.id)}
                 >
                   {genre.name}
@@ -195,22 +241,45 @@ const MainPage: React.FC = () => {
             )}
           </div>
 
-          {/* ✅ Generate Movie List Button */}
-          <Link to="/generate-movies">
-            <button className="w-full text-left p-3 font-bold bg-blue-500 text-white rounded-md hover:bg-orange-600 transition-all">
-              🎥 Generate Movie List
+          {/* ✅ Display Selected Genre Above Movies List */}
+          {selectedGenre && (
+            <h3 className="text-xl font-semibold text-yellow-400 text-center my-4">
+              🎬 Showing Movies for:{" "}
+              {genres.find((g) => g.id === selectedGenre)?.name ||
+                "Unknown Genre"}
+            </h3>
+          )}
+
+          {/* ✅ Add Extra Space Before "Generate Movie List" */}
+          <div className="mt-8">
+            <Link to="/generate-movies">
+              <button className="w-full text-left p-3 font-bold bg-blue-500 text-white rounded-md hover:bg-orange-600 transition-all">
+                🎥 Generate Movie List
+              </button>
+            </Link>
+          </div>
+
+          {/* ✅ Fun Movie Suggestion Feature (New Feature at the Bottom) */}
+          <div className="mt-6 bg-gray-800 text-white p-3 rounded-lg text-center shadow-md">
+            <h3 className="text-sm font-semibold">🎥 Movie Pick of the Day</h3>
+            <p className="text-xs italic text-gray-300">
+              "
+              {movies.length > 0
+                ? movies[Math.floor(Math.random() * movies.length)].title
+                : "Loading..."}
+              "
+            </p>
+          </div>
+
+          {/* ✅ Add More Space Before Logout Button */}
+          <div className="mt-8">
+            <button
+              className="text-red-500 hover:text-red-700 transition-all"
+              onClick={handleLogout}
+            >
+              Logout
             </button>
-          </Link>
-
-          {/* ✅ Other Sidebar Items */}
-
-          {/* ✅ Logout Button */}
-          <button
-            className="text-red-500 hover:text-red-700 transition-all mt-auto"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+          </div>
         </div>
       </aside>
 
@@ -262,7 +331,11 @@ const MainPage: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {movies.length > 0 ? (
             movies.map((movie) => (
-              <div key={movie.id} className="relative cursor-pointer group">
+              <div
+                key={movie.id}
+                className="relative cursor-pointer group"
+                onClick={() => fetchTrailer(movie.id)}
+              >
                 {/* Movie Poster */}
                 <img
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -284,6 +357,51 @@ const MainPage: React.FC = () => {
             </p>
           )}
         </div>
+        <footer className="w-full bg-white-80 text-white py-6 mt-24 relative z-10">
+          <div className="container mx-auto flex flex-col items-center">
+            {/* ✅ Lumeo Logo & Name */}
+            <div className="flex items-center text-gray-400 text-2xl font-bold mb-4">
+              <FaFilm className="mr-2" />
+              <span>Lumeo</span>
+            </div>
+
+            {/* ✅ "All Rights Reserved" Text */}
+            <p className="text-gray-400 text-sm text-center mb-4">
+              © {new Date().getFullYear()} Lumeo. All rights reserved.
+            </p>
+
+            {/* ✅ Social Media Icons (Fixed Color) */}
+            <div className="flex space-x-6 text-white">
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-400 transition text-xl"
+              >
+                <FontAwesomeIcon icon={faTwitter} />
+              </a>
+
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-blue-600 transition text-xl"
+              >
+                <FontAwesomeIcon icon={faFacebook} />
+              </a>
+
+              {/* ✅ Instagram */}
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-pink-500 transition text-xl"
+              >
+                <FontAwesomeIcon icon={faInstagram} />
+              </a>
+            </div>
+          </div>
+        </footer>
 
         {/* ✅ Movies List */}
       </div>
