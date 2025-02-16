@@ -73,7 +73,7 @@ const MovieGenerator: React.FC = () => {
       if (response.ok) {
         alert("✅ Your movie list has been emailed to you!");
       } else {
-        alert("❌ Failed to send email. Try again.");
+        alert(" Failed to send email. Try again.");
       }
     } catch (error) {
       console.error("Error sending email:", error);
@@ -86,7 +86,7 @@ const MovieGenerator: React.FC = () => {
         🎬 Select Your Top 5 Favorite Genres
       </h2>
       <p className="text-gray-600 text-center mt-2">
-        Pick 5 genres and we'll generate **10 trending movies** just for you!
+        Pick 5 genres and we'll generate 10 trending movies just for you!
       </p>
 
       {/* ✅ Genre Selection Grid */}
