@@ -141,9 +141,8 @@ const MovieGenerator: React.FC = () => {
             🎬 Your Top 10 Movie Picks
           </h2>
           <ul className="list-decimal list-inside text-center mt-4">
-            {movies.map((movie, index) => (
+            {movies.map((movie) => (
               <li key={movie.id} className="mt-2 font-semibold">
-                {index + 1}
                 {movie.title}
               </li>
             ))}
