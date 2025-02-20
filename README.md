@@ -33,7 +33,7 @@ Let me welcome you to **Lumeo**, a React-based movie discovery platform that all
 - **Framer Motion** - UI animations
 - **Firebase Authentication** - User login & authentication
 - **TMDb API** - Fetch trending movies
-- - **OpenAI API** - Fetch trending movies
+- **OpenAI API** - Fetch trending movies
 
 
 ## 📌 Usage
