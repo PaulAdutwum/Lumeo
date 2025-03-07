@@ -34,11 +34,11 @@ const MainPage: React.FC = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
-  //const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  
   const [trailerKey, setTrailerKey] = useState<string | null>(null);
   const [isPlayerOpen, setIsPlayerOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  // ✅ Fetch All Movies (Trending)
+  
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -56,7 +56,7 @@ const MainPage: React.FC = () => {
     }
   };
 
-  // ✅ Fetch Movie Genres
+  
   useEffect(() => {
     fetch(GENRE_URL)
       .then((res) => res.json())
@@ -64,7 +64,7 @@ const MainPage: React.FC = () => {
       .catch((error) => console.error("Error fetching genres:", error));
   }, []);
 
-  // ✅ Fetch Trending Movies (On Load)
+
   useEffect(() => {
     fetch(TRENDING_MOVIES_URL)
       .then((res) => res.json())
@@ -74,7 +74,7 @@ const MainPage: React.FC = () => {
       );
   }, []);
 
-  // ✅ Fetch Movies by Genre
+ 
   const handleGenreClick = async (genreId: number) => {
     setSelectedGenre(genreId);
     try {
@@ -86,7 +86,7 @@ const MainPage: React.FC = () => {
     }
   };
 
-  // ✅ Fetch Movie Trailer
+ 
   const fetchTrailer = async (movieId: number) => {
     try {
       const res = await fetch(
@@ -108,7 +108,7 @@ const MainPage: React.FC = () => {
     }
   };
 
-  // ✅ Fetch Movies Based on Search Term (With Autocomplete)
+  
   const handleSearch = async () => {
     if (searchTerm.trim() !== "") {
       try {
@@ -121,17 +121,17 @@ const MainPage: React.FC = () => {
     }
   };
   {
-    /* ✅ Movie Trailer Popup */
+   
   }
   {
     isPlayerOpen && trailerKey && (
       <div
         className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-80 z-50"
-        onClick={() => setIsPlayerOpen(false)} // ✅ Close on background click
+        onClick={() => setIsPlayerOpen(false)} 
       >
         <div
           className="relative w-[90%] md:w-[70%] lg:w-[50%]"
-          onClick={(e) => e.stopPropagation()} // ✅ Prevent closing when clicking the player
+          onClick={(e) => e.stopPropagation()} 
         >
           <button
             className="absolute top-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
@@ -152,7 +152,7 @@ const MainPage: React.FC = () => {
     );
   }
 
-  // ✅ Search Autocomplete (Fetch Suggestions)
+  
   useEffect(() => {
     fetch(GENRE_URL)
       .then((res) => res.json())
@@ -173,16 +173,16 @@ const MainPage: React.FC = () => {
     }
   }, [searchTerm]);
 
-  // ✅ Logout & Redirect
+  
   const handleLogout = () => {
     auth.signOut().then(() => {
-      navigate("/", { replace: true }); // ✅ Prevents auto-redirect back
+      navigate("/", { replace: true }); 
     });
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex">
-      {/* ✅ Movie Trailer Popup */}
+     
       {isPlayerOpen && trailerKey && (
         <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-black bg-opacity-80 z-50">
           <div className="relative w-[90%] md:w-[70%] lg:w-[50%]">
@@ -204,7 +204,7 @@ const MainPage: React.FC = () => {
         </div>
       )}
 
-      {/* ✅ Sidebar Toggle Button (☰) for Mobile */}
+     
       <button
         className="md:hidden fixed top-4 left-4 bg-gray-800 text-white p-3 rounded-md z-50"
         onClick={toggleSidebar}
@@ -212,7 +212,7 @@ const MainPage: React.FC = () => {
         <FaBars size={20} />
       </button>
 
-      {/* ✅ Sidebar */}
+     
       <aside
         className={`fixed top-0 left-0 h-full bg-black p-4 z-40 transition-transform duration-300 md:h-auto w-64 border-r-2 border-gray-600 shadow-lg 
     ${
@@ -220,7 +220,7 @@ const MainPage: React.FC = () => {
     } md:translate-x-0 md:relative`}
       >
         <div className="flex flex-col h-full">
-          {/* ✅ Sidebar Header with Close Button (✖) */}
+          
           <div className="flex justify-between items-center mb-4">
             <div className="text-yellow-400 text-xl font-bold">Lumeo</div>
             <button
@@ -230,7 +230,7 @@ const MainPage: React.FC = () => {
               ✖
             </button>
           </div>
-          {/* ✅ All Movies Button (Fix for ts(6133) error) */}
+          
           <button
             className="w-full text-left p-2 hover:text-yellow-400 transition-all"
             onClick={handleAllMoviesClick}
@@ -238,7 +238,7 @@ const MainPage: React.FC = () => {
             🎬 All Movies
           </button>
 
-          {/* ✅ Genre List */}
+          
           <div className="flex flex-col space-y-2 mt-4 flex-grow overflow-y-auto">
             {genres.length > 0 ? (
               genres.map((genre) => (
@@ -261,7 +261,7 @@ const MainPage: React.FC = () => {
             )}
           </div>
 
-          {/* ✅ Fun Movie Suggestion Feature */}
+         
           <div className="mt-6 bg-gray-800 text-white p-3 rounded-lg text-center shadow-md">
             <h3 className="text-sm font-semibold">🎥 Movie Pick of the Day</h3>
             <p className="text-xs italic text-gray-300">
@@ -280,7 +280,7 @@ const MainPage: React.FC = () => {
             </Link>
           </div>
 
-          {/* ✅ Logout Button */}
+          
           <button
             className="text-red-500 hover:text-red-700 transition-all mt-6"
             onClick={handleLogout}
@@ -290,10 +290,9 @@ const MainPage: React.FC = () => {
         </div>
       </aside>
 
-      {/* ✅ Main Content */}
 
       <div className="flex-1 p-6">
-        {/* ✅ Search Bar with Autocomplete */}
+        
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-white">🎬 Explore Movies</h2>
           <button
@@ -366,18 +365,18 @@ const MainPage: React.FC = () => {
         </div>
         <footer className="w-full bg-white-80 text-white py-6 mt-24 relative z-10">
           <div className="container mx-auto flex flex-col items-center">
-            {/* ✅ Lumeo Logo & Name */}
+            
             <div className="flex items-center text-gray-400 text-2xl font-bold mb-4">
               <FaFilm className="mr-2" />
               <span>Lumeo</span>
             </div>
 
-            {/* ✅ "All Rights Reserved" Text */}
+            
             <p className="text-gray-400 text-sm text-center mb-4">
               © {new Date().getFullYear()} Lumeo. All rights reserved.
             </p>
 
-            {/* ✅ Social Media Icons (Fixed Color) */}
+            {/*  Social Media Icons (Fixed Color) */}
             <div className="flex space-x-6 text-white">
               <a
                 href="https://twitter.com"
@@ -397,7 +396,7 @@ const MainPage: React.FC = () => {
                 <FontAwesomeIcon icon={faFacebook} />
               </a>
 
-              {/* ✅ Instagram */}
+              
               <a
                 href="https://instagram.com"
                 target="_blank"
@@ -410,7 +409,7 @@ const MainPage: React.FC = () => {
           </div>
         </footer>
 
-        {/* ✅ Movies List */}
+        
       </div>
     </div>
   );
