@@ -4,11 +4,11 @@ Let me welcome you to **Lumeo**, a React-based movie discovery platform that all
 
 ## 🚀 Features
 
-✅ **User Authentication**: Sign up or log in with Google or email/password authentication (powered by Firebase).  
-✅ **Trending Movies**: View trending movies fetched from The Movie Database (TMDb) API.  
-✅ **Live Trailers**: Click on a movie card to watch a **live preview** of the trailer.  
-✅ **Fully Responsive**: Optimized for **both desktop and mobile screens**.  
-✅ **Dynamic UI Animations**: Smooth animations using **Framer Motion** for enhanced user experience.  
+ **User Authentication**: Sign up or log in with Google or email/password authentication (powered by Firebase).  
+ **Trending Movies**: View trending movies fetched from The Movie Database (TMDb) API.  
+ **Live Trailers**: Click on a movie card to watch a **live preview** of the trailer.  
+ **Fully Responsive**: Optimized for **both desktop and mobile screens**.  
+**Dynamic UI Animations**: Smooth animations using **Framer Motion** for enhanced user experience.  
 
 ## 📷 Screenshots
 
